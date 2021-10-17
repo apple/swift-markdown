@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 /*
  This source file is part of the Swift.org open source project
 
@@ -32,7 +32,7 @@ let package = Package(
                 .product(name: "cmark-gfm", package: cmarkPackageName),
                 .product(name: "cmark-gfm-extensions", package: cmarkPackageName),
             ]),
-        .target(
+        .executableTarget(
             name: "markdown-tool",
             dependencies: [
                 "Markdown",
