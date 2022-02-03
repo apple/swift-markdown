@@ -258,4 +258,8 @@ struct MarkupTreeDumper: MarkupWalker {
     mutating func visitSymbolLink(_ symbolLink: SymbolLink) {
         dump(symbolLink, customDescription: symbolLink.destination.map { "destination: \($0)" })
     }
+    
+    mutating func visitCustomAttributes(_ attributes: CustomAttributes) -> () {
+        dump(attributes, customDescription: "attributes: `\(attributes.attributes)`")
+    }
 }
