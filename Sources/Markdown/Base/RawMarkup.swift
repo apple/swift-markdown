@@ -40,6 +40,7 @@ enum RawMarkupData: Equatable {
     case strong
     case text(String)
     case symbolLink(destination: String?)
+    case customAttributes(attributes: String)
 
     // Extensions
     case strikethrough
@@ -277,6 +278,10 @@ final class RawMarkup: ManagedBuffer<RawMarkupHeader, RawMarkup> {
 
     static func symbolLink(parsedRange: SourceRange?, destination: String?) -> RawMarkup {
         return .create(data: .symbolLink(destination: destination), parsedRange: parsedRange, children:  [])
+    }
+
+    static func customAttributes(attributes: String, parsedRange: SourceRange?, _ children: [RawMarkup]) -> RawMarkup {
+        return .create(data: .customAttributes(attributes: attributes), parsedRange: parsedRange, children: children)
     }
 
     // MARK: Extensions

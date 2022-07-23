@@ -266,6 +266,14 @@ public protocol MarkupVisitor {
      - returns: The result of the visit.
      */
     mutating func visitSymbolLink(_ symbolLink: SymbolLink) -> Result
+
+        /**
+     Visit a `CustomAttributes` element and return the result.
+
+     - parameter attribute: An `CustomAttributes` element.
+     - returns: The result of the visit.
+     */
+    mutating func visitCustomAttributes(_ attributes: CustomAttributes) -> Result
 }
 
 extension MarkupVisitor {
@@ -361,5 +369,8 @@ extension MarkupVisitor {
     }
     public mutating func visitSymbolLink(_ symbolLink: SymbolLink) -> Result {
         return defaultVisit(symbolLink)
+    }
+    public mutating func visitCustomAttributes(_ attributes: CustomAttributes) -> Result {
+        return defaultVisit(attributes)
     }
 }
