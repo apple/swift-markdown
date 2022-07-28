@@ -492,15 +492,23 @@ public struct MarkupFormatter: MarkupWalker {
 
     /// Get the numeral prefix for a list item if its parent is an ordered list.
     func numeralPrefix(for listItem: ListItem) -> String? {
-        guard listItem.parent is OrderedList else {
+        guard let list = listItem.parent as? OrderedList else {
             return nil
         }
         let numeral: UInt
         switch formattingOptions.orderedListNumerals {
         case let .allSame(n):
-            numeral = n
+            if list.start == 1 {
+                numeral = n
+            } else {
+                numeral = UInt(list.start)
+            }
         case let .incrementing(start):
-            numeral = start + UInt(listItem.indexInParent)
+            if list.start != 1 {
+                numeral = UInt(list.start) + UInt(listItem.indexInParent)
+            } else {
+                numeral = start + UInt(listItem.indexInParent)
+            }
         }
         return "\(numeral). "
     }
