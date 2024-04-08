@@ -1215,20 +1215,22 @@ class BlockDirectiveArgumentParserTests: XCTestCase {
             """
         )
     }
+}
 
-    // FIXME: swift-testing macro for specifying the relationship between a bug and a test
-    // Uncomment the following code when we integrate swift-testing
-    // @Test("Directive MultiLine WithoutContent Parsing", .bug("#152", relationship: .verifiesFix))
+#if SWIFT_MARKDOWN_SWIFT_TESTING_INTEGRATION
+import Testing
+
+struct _BlockDirectiveArgumentParserTests {
+    @Test("Directive MultiLine WithoutContent Parsing", .bug("#152", relationship: .verifiesFix))
     func testDirectiveMultiLineWithoutContentParsing() throws {
-        let source = """
+        let source = #"""
         @Image(
           source: "example.png",
           alt: "Example image"
         )
-        """
-
+        """#
         let document = Document(parsing: source, options: .parseBlockDirectives)
-        _ = try XCTUnwrap(document.child(at: 0) as? BlockDirective)
+        _ = try #require(document.child(at: 0) as? BlockDirective)
         let expected = #"""
         Document @1:1-4:2
         └─ BlockDirective @1:1-4:2 name: "Image"
@@ -1236,6 +1238,7 @@ class BlockDirectiveArgumentParserTests: XCTestCase {
            |    @2:1-2:25: "  source: \"example.png\","
            |    @3:1-3:23: "  alt: \"Example image\""
         """#
-        XCTAssertEqual(expected, document.debugDescription(options: .printSourceLocations))
+        #expect(document.debugDescription(options: .printSourceLocations) == expected)
     }
 }
+#endif
