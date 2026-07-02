@@ -22,7 +22,7 @@ import Foundation
 /// ```
 public struct Aside {
     /// Describes the different kinds of aside.
-    public struct Kind: RawRepresentable, CaseIterable, Equatable, Sendable {
+    public struct Kind: RawRepresentable, CaseIterable, Hashable, Sendable {
         /// A "note" aside.
         public static let note = Kind(rawValue: "Note")!
         
@@ -230,7 +230,7 @@ extension BlockQuote {
         }).count
         let textRange: SourceRange? = initialText.range.map({ originalRange in
             var newStart = originalRange.lowerBound
-            newStart.column += shiftCount
+            newStart.column = min(newStart.column + shiftCount, originalRange.upperBound.column)
             return newStart..<originalRange.upperBound
         })
 
